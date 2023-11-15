@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded',UI.displayBooks);
 
 //**Event: Add a Book
 document.querySelector('#book-group').addEventListener('submit', (e)=>{
+    e.preventDefault();
     //getting the values
     const title = document.querySelector('#title').value;
     const author = document.querySelector('#author').value;
