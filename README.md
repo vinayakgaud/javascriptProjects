@@ -1,4 +1,4 @@
-This repo has vanilla JS projects
+This repository have vanilla JS proijects
 
-Please visit here -
+Visit here to access the projects -
 https://vinayakgaud.github.io/javascriptProjects/
