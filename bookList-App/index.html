@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookList App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/282059491d.js" crossorigin="anonymous"></script>
+    <script src="main.js" defer></script>
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="display-4 text-center" title="MyBookList">
+            <i class="fas fa-book-open text-primary"></i>
+            My<span class="text-primary" style="font-weight: 700;">Book</span>List
+        </h1>
+        <div id="alert"></div>
+        <form id="book-group">
+            <div class="form-group form-floating mt-4">
+                <input type="text" id="title" class="form-control" placeholder="Title of the Book">
+                <label for="title" class="">Title of the Book</label>
+            </div>
+            <div class="form-group form-floating mt-4">
+                <div class="form-group form-floating">
+                <input type="text" id="author" class="form-control" placeholder="Author of the Book">
+                <label for="author" class="">Author of the Book</label>
+            </div>
+            <div class="form-group form-floating mt-4">
+                <input type="text" id="bookNo" class="form-control" placeholder="Number of the Book">
+                <label for="bookNo" class="">Number of the Book</label>
+            </div>
+            <div class="d-grid mt-4">
+                <input type="submit" value="Add Book" class="btn btn-secondary" style="font-weight: 700;">
+            </div>
+        </form>
+        <table class="table table-stripped mt-4">
+            <thead>
+              <tr>
+                <th scope="col" class="">Title</th>
+                <th scope="col" class="">Author</th>
+                <th scope="col" class="">Book Number</th>
+              </tr>
+            </thead>
+            <tbody id="book-list"></tbody>
+          </table>
+    </div>
+</body>
+</html>
