@@ -27,15 +27,27 @@
                 <label for="author" class="">Author of the Book</label>
             </div>
             <div class="form-group form-floating mt-4">
-                <input type="text" id="bookNo" class="form-control" placeholder="Number of the Book">
+                <input type="number" id="bookNo" class="form-control" placeholder="Number of the Book">
                 <label for="bookNo" class="">Number of the Book</label>
             </div>
-            <div class="d-grid mt-4">
+            <div class="d-grid mt-4" id="addBook">
                 <input type="submit" value="Add Book" class="btn btn-secondary" style="font-weight: 700;">
             </div>
+
+            <div class="getBookButton mt-4">
+                <button id="showAll" class="btn btn-secondary" style="font-weight: 700;">Show All Books</button>
+                <button id="getBookUsingNumber"class="btn btn-secondary" style="font-weight: 700;">Get Book using number</button>
+            </div>
+            <div id="hiddenSection" class="mt-4 getBookThroughNumber hide">
+                <div class="form-group form-floating mt-4">
+                    <input type="text" id="bookNumber" class="form-control" placeholder="Enter book number to get the book">
+                    <label for="bookNumber" class="">Enter book number to get the book</label>
+                </div>
+                <button id="getBook"class="mt-4 btn btn-secondary" style="font-weight: 700;">Get Book</button>
+            </div>
         </form>
-        <table class="table table-stripped mt-4">
-            <thead>
+        <table class="tableContent table table-stripped mt-4">
+            <thead class="tableHead">
               <tr>
                 <th scope="col" class="">Title</th>
                 <th scope="col" class="">Author</th>
