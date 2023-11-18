@@ -10,13 +10,13 @@ class Book{
 //**UI Class: Handle UI Tasks
 class UI{
     //methods for handling UI related task, as don't want to initiate it that's why creating it as static
-    static displayBooks(){
-        const books = StoreBook.getBooks();
-        //looping through books to add it on UI
-        books.forEach((book)=>{
-            UI.addBooksToList(book)
-        });
-    }
+    // static displayBooks(){
+    //     const books = StoreBook.getBooks();
+    //     //looping through books to add it on UI
+    //     books.forEach((book)=>{
+    //         UI.addBooksToList(book)
+    //     });
+    // } //not useful as of now as not displaying all the fields everytime
 
     static addBooksToList(book){
         const list = document.querySelector('#book-list'); //fetching table body to create list of books
@@ -94,34 +94,80 @@ class StoreBook{ //storing book to localStorage : DB
         localStorage.setItem('books',JSON.stringify(books));
         //updating that updated array again to localstorage
     }
-}
 
+    static getBookByNumber(num){
+        let childNodeLength = document.querySelector('#book-list').childNodes.length;
+        let books = StoreBook.getBooks();
+        let arrObjLength =  books.reduce((arr,child)=>{
+            arr[child.number] = (arr[child.number] || 0) + 1;
+            return arr;
+        },{}) //gettings thc counts of object from that number as to not repeat the list of books
+        if(arrObjLength[num] === 0 || arrObjLength[num] === undefined || arrObjLength[num] === null){ //need to only check for undefined but checked for all neg cases, if element is not there it cannot b 0 or null can only be undefined
+            UI.showAlert('Enter valid number','danger');
+        }else if(childNodeLength === arrObjLength[num]){
+            UI.showAlert('All books are displayed','success') //added this to stop repeated list of books when user click get book button multiple time
+        }
+        else{
+            books.forEach(book=>{
+                if(book.number === num){
+                    UI.addBooksToList(book);
+                }
+            });
+        }
+    }
+}
 //**Event: Display Books
-document.addEventListener('DOMContentLoaded',UI.displayBooks);
+document.querySelector('#showAll').addEventListener('click',()=>{
+    let childLength = document.querySelector('#book-list').childNodes.length;
+    let getBookLength = StoreBook.getBooks().length;
+    if( childLength!==getBookLength ){
+        let diff = getBookLength - childLength;
+        const books = StoreBook.getBooks().splice(childLength,diff);
+        books.forEach((book)=>{
+            UI.addBooksToList(book)
+        });
+    }else{
+        UI.showAlert('All the books are shown already','success');
+    }
+});
+
+// document.addEventListener('DOMContentLoaded', UI.displayBooks)
 
 //**Event: Add a Book
-document.querySelector('#book-group').addEventListener('submit', (e)=>{
+//resetting the number field if user enter e letter
+const numberField = document.querySelector('#bookNo');
+numberField.addEventListener('keydown',(e)=>{
+    if(e.key==='e'){
+        UI.showAlert('Enter Number','danger');
+        setTimeout(()=>{
+            location.reload()
+        },700)
+    }
+})
+document.querySelector('#addBook').addEventListener('click', (e)=>{
     e.preventDefault();
     //getting the values
     const title = document.querySelector('#title').value;
     const author = document.querySelector('#author').value;
     const number = document.querySelector('#bookNo').value;
-
-    //validate all fields have value
-    if(title === '' || author === '' || number === ''){
-        UI.showAlert('Please fill in all the fields','danger');
+    if(title !== '' && author !== '' && number !== ''){
+        if(number < 0){
+            UI.showAlert('Enter positive number', 'danger')
+        }else{
+            //validate all fields have value
+            //instatiate book to create book object
+            const book = new Book(title,author,number);
+            document.querySelector('#book-group').reset(); //resetting the form
+            //we can also create function and then clear out each field but this is better
+        
+            //adding book to list
+            // UI.addBooksToList(book); //if we don't have it added book won't be displayed on runtime it will only be displayed when browser is reloaded or getbooks method is called
+            //** localStorage is similar to sessionStorage, except that while localStorage data has no expiration time, sessionStorage data gets cleared when the page session ends — that is, when the page is closed. (localStorage data for a document loaded in a "private browsing" or "incognito" session is cleared when the last "private" tab is closed.) 
+            StoreBook.addBook(book);
+            UI.showAlert('Added book successfully','success')
+        }
     }else{
-
-        //instatiate book to create book object
-        const book = new Book(title,author,number);
-        document.querySelector('#book-group').reset(); //resetting the form
-        //we can also create function and then clear out each field but this is better
-    
-        //adding book to list
-        UI.addBooksToList(book); //if we don't have it added book won't be displayed on runtime it will only be displayed when browser is reloaded or getbooks method is called
-        //** localStorage is similar to sessionStorage, except that while localStorage data has no expiration time, sessionStorage data gets cleared when the page session ends — that is, when the page is closed. (localStorage data for a document loaded in a "private browsing" or "incognito" session is cleared when the last "private" tab is closed.) 
-        StoreBook.addBook(book);
-        UI.showAlert('Added book successfully','success')
+        UI.showAlert('Please fill in all the fields','danger');
     }
 });
 
@@ -137,4 +183,15 @@ document.querySelector('#book-list').addEventListener
     UI.deleteBookFromList(target);
     StoreBook.removeBook(target.parentElement.previousElementSibling.textContent); //as remove method take number, but when we click on x button it is not number so we have to fetch number from it using parent and child element, or parent element and previous element as number is directly next to x button, we are traversing the DOM
     UI.showAlert('Removed book successfully','success')
+})
+
+//**Getting the book using number and not all the books */
+//**Toggling the button to show and hide get book by number section */
+document.querySelector('#getBookUsingNumber').addEventListener('click',()=>{
+    document.querySelector('#hiddenSection').classList.toggle('hide')
+})
+
+document.querySelector('#getBook').addEventListener('click',()=>{
+    const numberOfBook = document.querySelector('#bookNumber').value;
+    StoreBook.getBookByNumber(numberOfBook);
 })

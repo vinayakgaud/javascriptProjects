@@ -9,3 +9,23 @@
 label{
     font-weight: 700;
 }
+
+.getBookButton button:hover, #getBook:hover, #addBook:hover{
+    border: solid 1px black;
+}
+
+.getBookButton{
+    display: grid;
+    grid-template-columns:1fr 1fr;
+    column-gap: 20px;
+}
+
+.getBookThroughNumber{
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    column-gap: 20px;
+}
+
+.hide{
+    display: none;
+}
