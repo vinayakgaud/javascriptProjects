@@ -117,7 +117,8 @@ class StoreBook{ //storing book to localStorage : DB
     }
 }
 //**Event: Display Books
-document.querySelector('#showAll').addEventListener('click',()=>{
+document.querySelector('#showAll').addEventListener('click',(e)=>{
+    e.preventDefault();
     let childLength = document.querySelector('#book-list').childNodes.length;
     let getBookLength = StoreBook.getBooks().length;
     if( childLength!==getBookLength ){
@@ -187,11 +188,13 @@ document.querySelector('#book-list').addEventListener
 
 //**Getting the book using number and not all the books */
 //**Toggling the button to show and hide get book by number section */
-document.querySelector('#getBookUsingNumber').addEventListener('click',()=>{
+document.querySelector('#getBookUsingNumber').addEventListener('click',(e)=>{
+    e.preventDefault();
     document.querySelector('#hiddenSection').classList.toggle('hide')
 })
 
-document.querySelector('#getBook').addEventListener('click',()=>{
+document.querySelector('#getBook').addEventListener('click',(e)=>{
+    e.preventDefault();
     const numberOfBook = document.querySelector('#bookNumber').value;
     StoreBook.getBookByNumber(numberOfBook);
 })
